@@ -4,6 +4,8 @@ program mhd1d
   use mhd_types          ! provides type(state)
   use mhd_init           ! provides set_brio_wu
   use mhd_flux           ! provides compute_flux
+  use mhd_wave      ! provides max_wave_speed(U_old, nx)
+
   implicit none
 
   real(dp), dimension(nvar,nx) :: U_old, U_new, F
@@ -31,13 +33,22 @@ program mhd1d
     end if
   end do
 
+    !-------------------------------------------------------------------
+  ! DEBUG: print the very first cell and its flux, then stop
+  !-------------------------------------------------------------------
+  print *, 'U_old(:,1) =', U_old(:,1)
+  call compute_flux( U_old(:,1), F(:,1) )
+  print *, 'F(:,1)     =', F(:,1)
+  stop
+
+
   !-------------------------------------------------------------------
   ! 2–6) Main time‑stepping loop (skeleton)
   !-------------------------------------------------------------------
   do while (t < t_end)
 
-    ! 2) Placeholder dt (replace with CFL-based dt=vmax*dx/CFL)
-    dt = 0.5_dp * dx / 1.0_dp  
+    ! 2) CFL time step
+    dt = CFL * dx / max_wave_speed(U_old, nx) 
 
     ! 3) Compute flux at each cell
     do i = 1, nx
