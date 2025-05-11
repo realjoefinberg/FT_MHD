@@ -16,4 +16,4 @@
   B2    = Bx**2 + By**2 + Bz**2
   p     = (gamma - 1._dp) * (E - 0.5_dp*rho*(vx**2 + vy**2 + vz**2) \
                              - 0.5_dp*B2)
-  vdotB = vx*Bx + vy*By + vz*Bz
+  vdotB = vx*Bx + vy*By + vz*Bz 
