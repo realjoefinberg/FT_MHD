@@ -61,8 +61,9 @@ program mhd1d
     end do
 
     ! 5) Periodic boundary conditions
-    U_new(:,1)  = U_new(:,nx)
-    U_new(:,nx) = U_new(:,1)
+      U_new(:,1)  = U_new(:,2)
+      U_new(:,nx) = U_new(:,nx-1)
+
 
     ! 6) Advance
     U_old = U_new
